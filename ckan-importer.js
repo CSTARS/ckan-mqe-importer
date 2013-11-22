@@ -10,7 +10,7 @@ var MongoClient = require('mongodb').MongoClient;
 // stored id in mqe
 var CKAN_ID = 'ckan_id';
 
-var verbose = true;
+var verbose = false;
 
 // hash of known parsers, directory should be set in 
 var parsers = {};
