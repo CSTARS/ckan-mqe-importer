@@ -1,0 +1,10 @@
+{
+  "name": "ckan-mqe-importer",
+  "version": "0.0.1",
+  "author": "Justin Merz <jrmerz@gmail.com>",
+  "description": "Import ckan data into mongo-query-engine",
+  "dependencies" : {
+    "node-ckan"           : "*",
+    "mongodb"             : "*"
+  }
+}
