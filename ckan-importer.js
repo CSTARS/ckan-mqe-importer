@@ -78,9 +78,12 @@ function onDataReady(config, data) {
 function onPackageComplete() {
 	index++;
 	if( index == packageList.length ) {
-		if( verbose ) console.log("Saving stats...");
-		saveStats();
-		if( verbose ) console.log("Done.");
+		if( verbose ) console.log("Clearing cache...");
+		clearCache(function(){
+			if( verbose ) console.log("Saving stats...");
+			saveStats();
+			if( verbose ) console.log("Done.");
+		});
 	} else {
 		updatePackage(packageList[index]);
 	}
@@ -246,6 +249,19 @@ function resetStats() {
 		errors   : 0,
 		errLog   : [] 
 	}
+}
+
+// clear the mqe cache if inserts or update > 1 and log if errors if fail
+function clearCache(callback) {
+	if( stats.updated == 0 && stats.inserted == 0 ) return callback();
+
+	mongoclient.collection(config.db.cacheCollection, function(err, collection) { 
+		if( err ) console.log(err);
+		collection.remove({},function(err, removed){
+			if( err ) stats.errLog.push("Failed to clear cache: "+JSON.stringify(err));
+			callback();
+	    });
+	});
 }
 
 // this should never block anything
