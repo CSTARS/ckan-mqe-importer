@@ -222,7 +222,7 @@ function updateItem(item, next, callback) {
 
 // if we have a parser for the format, download the data and parse
 function getData(item, callback) {
-    if( !parsers[item.format] || !item.url ) return callback();
+    if( !parsers[item.format] && !item.url ) return callback();
 
     var data = "";
     http.get(item.url, function(response) {
