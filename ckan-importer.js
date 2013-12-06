@@ -2,7 +2,7 @@
  *  Import data from ckan server
  *  Think this should run as a child process
  */
-var ckan = require('/Users/jrmerz/dev/cstars/node-ckan');
+var ckan = require('node-ckan');
 var http = require('http');
 var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
