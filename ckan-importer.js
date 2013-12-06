@@ -392,10 +392,15 @@ function removeOldRecords(callback) {
         if( err ) return callback();
 
         var removeList = [];
-        for( var i = 0; i < items.length; i++ ) {
-            if( packageIdList.indexOf(items[i].ckan_id) == -1 ) {
-                removeList.push(items[i].ckan_id);
+        for( var i = 0; i < packageIdList.length; i++ ) {
+            var found = false;
+            for( var j = 0; j < items.length; j++ ) {
+                if( packageIdList[i] == items[j].ckan_id ) {
+                    found = true;
+                    break;
+                }
             }
+            if( !found ) removeList.push(items[i].ckan_id);
         }
 
         collection.remove({'ckan_id' : { $in : removeList } },function(err, removed){
