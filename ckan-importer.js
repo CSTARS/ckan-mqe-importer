@@ -52,12 +52,12 @@ function run(config) {
 
 function setKnownParsers() {
     parsers = {};
-    if( !config.ckan.parsers ) return;
+    if( !config.import.parsers ) return;
 
-    var files = fs.readdirSync(config.ckan.parsers);
+    var files = fs.readdirSync(config.import.parsers);
     for( var i = 0; i < files.length; i++ ) {
-        if( !file[i].match(/^\..*/) && file[i].match(/^\..*/) ) {
-            parsers[file[i].replace(/\.js$/,'')] = require(config.ckan.parsers+"/"+files[i]);
+        if( !files[i].match(/^\..*/) ) {
+            parsers[files[i].replace(/\.js$/,'')] = require(config.import.parsers+"/"+files[i]);
         }
     }
 }
@@ -222,7 +222,7 @@ function updateItem(item, next, callback) {
 
 // if we have a parser for the format, download the data and parse
 function getData(item, callback) {
-    if( !parsers[item.format] && !item.url ) return callback();
+    if( !parsers[item.format] || !item.url ) return callback();
 
     var data = "";
     http.get(item.url, function(response) {
