@@ -31,6 +31,7 @@ var vocabMap = {};
 function run(config) {
     index = 0;
     resetStats();
+    verbose = config.import.verbose;
     if( verbose ) console.log("Exporting data from CKAN...");
 
     setKnownParsers();
@@ -38,6 +39,7 @@ function run(config) {
 
     ckan.export({
         server   : config.ckan.server,
+        debug : verbose,
         callback : function(data){
 
             for( var id in data.packages ) {
@@ -306,7 +308,18 @@ function createItemGroup(pkg, callback){
         groups       : [],
         resources    : pkg.resources ? pkg.resources : [],
         organization : pkg.organization ? pkg.organization.title : "",
+        extras       : {}
     }
+
+    // add extras
+    if( pkg.extras ) {
+        for( var i = 0; i < pkg.extras.length; i++ ) {
+            if( pkg.extras[i].state == 'active' ) {
+                item.extras[pkg.extras[i].key] = pkg.extras[i].value;
+            }
+        }
+    }
+    
 
     if( pkg.groups ) {
         for( var i = 0; i < pkg.groups.length; i++ ) {
