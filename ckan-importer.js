@@ -287,6 +287,15 @@ function createItem(pkg, res, callback){
         notes        : pkg.notes
     }
 
+    // add extras
+    if( pkg.extras ) {
+        for( var i = 0; i < pkg.extras.length; i++ ) {
+            if( pkg.extras[i].state == 'active' ) {
+                item.extras[pkg.extras[i].key] = pkg.extras[i].value;
+            }
+        }
+    }
+
     if( pkg.groups ) {
         for( var i = 0; i < pkg.groups.length; i++ ) {
             item.groups.push(pkg.groups[i].name);
